@@ -10,12 +10,14 @@ namespace HomeWork_08_SKP
     class Employee
     {
 
+        private static int _id = 1;
+        
         #region Свойства
 
         /// <summary>
         /// Идентификатор сотрудника
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Фамилия сотрудника
@@ -52,18 +54,22 @@ namespace HomeWork_08_SKP
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{Id, -(CheckUserInput.maxLengthId)} {Name, -(CheckUserInput.maxLengthName)} {Surname, -(CheckUserInput.maxLengthName)} {Age, -(CheckUserInput.maxLengthAge)} {WorkPlace, -(CheckUserInput.maxLengthName)} {Wage, -(CheckUserInput.maxLengthWage)}";
+            return $"{Id, -(CheckUserInput.maxLengthId)} {Name, -(CheckUserInput.maxLengthName)} {Surname, -(CheckUserInput.maxLengthName)} {Age, -(CheckUserInput.maxLengthAge)} {WorkPlace.Name, -(CheckUserInput.maxLengthName)} {Wage, -(CheckUserInput.maxLengthWage)}";
         }
 
-        public void Edit()
+        /// <summary>
+        /// Метод получения ID для нового сотрудника
+        /// </summary>
+        /// <returns></returns>
+        public static int getIDForNewEmployee()
         {
-            throw new NotImplementedException();
-        }
+            int newID = _id;
 
-        public void Remove()
-        {
-            throw new NotImplementedException();
+            _id++;
+
+            return newID;
         }
+               
 
         #endregion
     }

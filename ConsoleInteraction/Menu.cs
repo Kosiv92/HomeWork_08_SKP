@@ -107,9 +107,7 @@ namespace HomeWork_08_SKP
                     case 2:
                     break;
                     case 3:
-
-                    
-                    //ListToConsole.PrintListDepartments(Organization.Departments);
+                    ListToConsole.PrintListDepartments();                    
                     break;
                 }
 
@@ -137,9 +135,7 @@ namespace HomeWork_08_SKP
                     case 2:
                     break;
                     case 3:
-
-                    
-                    
+                    ListToConsole.PrintListEmployees();                                        
                     break;
                 }
 

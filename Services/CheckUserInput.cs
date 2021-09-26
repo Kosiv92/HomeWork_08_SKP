@@ -134,29 +134,7 @@ namespace HomeWork_08_SKP.Services
                 return true;
             }
             else return false;
-        }
-
-        /// <summary>
-        /// Метод проверки намерения пользователя ввести текущую дату
-        /// </summary>
-        /// <returns>Результа проверки</returns>
-        public static bool CheckChoiceToday()
-        {
-            bool isToday = false;
-            string[] dateMenu = { "Установить сегодняшнюю дату", "Установить дату вручную" };            
-            int choiceByUser = Menu.ChooseMenuItem(dateMenu);
-            int choiceByUser1 = choiceByUser;
-            switch (choiceByUser)
-            {
-                case 0:
-                    isToday = true;
-                    break;
-                case 1:
-                    isToday = false;
-                    break;
-            }
-            return isToday;
-        }
+        }                
 
         /// <summary>
         /// Метод проверки ввода пользователем даты

@@ -40,7 +40,7 @@ namespace HomeWork_08_SKP
 
         public override string ToString()
         {
-            return $"{Name, -(CheckUserInput.maxLengthName)} {DateOfCreation, -(CheckUserInput.maxLengthDate)} {NumberOfEmployees, -(CheckUserInput.maxLengthEmployeesCount)}";
+            return $"{Name, -(CheckUserInput.maxLengthName)} {DateOfCreation.ToString("d"), -(CheckUserInput.maxLengthDate)} {NumberOfEmployees, -(CheckUserInput.maxLengthEmployeesCount)}";
         }
 
         public void Edit()

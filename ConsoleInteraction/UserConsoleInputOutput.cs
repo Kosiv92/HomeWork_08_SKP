@@ -52,11 +52,9 @@ namespace HomeWork_08_SKP
 
                 newEmployee.WorkPlace = ChooseDepartmentForEmployee();
 
-                newEmployee.Wage = InputWageEmployee();
-
-                string employeeData =$"{newEmployee.Name}{newEmployee.Surname}{newEmployee.Age}{newEmployee.WorkPlace}{newEmployee.Wage}";
-
-                newEmployee.Id = guid.ToString(employeeData).Substring(0,6);                                
+                newEmployee.Wage = InputWageEmployee();    
+                
+                newEmployee.Id = Employee.getIDForNewEmployee();
 
                 newEmployee.WorkPlace.Employees.Add(newEmployee);                               
 
@@ -79,8 +77,7 @@ namespace HomeWork_08_SKP
             do
             {
                 name = Console.ReadLine();
-                check = CheckUserInput.CheckName(name);
-                Console.WriteLine();
+                check = CheckUserInput.CheckName(name);                
             } while (!check);
 
             return name;
@@ -142,7 +139,7 @@ namespace HomeWork_08_SKP
 
             } while (!checkChoiceByUser);
 
-            return Organization.Departments[choiceByUser + 1];
+            return Organization.Departments[choiceByUser-1];
 
         }
 
@@ -155,7 +152,7 @@ namespace HomeWork_08_SKP
             int age = 0;
             bool checkInputByUser = false;
 
-            Console.WriteLine("Введите возраст сотрудника: ");
+            Console.Write("Введите возраст сотрудника: ");
 
             do
             {
@@ -210,13 +207,9 @@ namespace HomeWork_08_SKP
         {
             DateTime date = DateTime.MinValue;
 
-            bool checkChoiceByUser = false;
+            bool checkChoiceByUser = false;                        
 
-            Console.WriteLine("Укажите дату создания департамента: ");
-
-            Console.ReadKey();
-
-            if (CheckUserInput.CheckChoiceToday()) date = DateTime.Today;
+            if (InputTodayDate()) date = DateTime.Today;
             else
             {
                 Console.Write("Введите дату в формате ДД.ММ.ГГГГ:");
@@ -234,6 +227,28 @@ namespace HomeWork_08_SKP
 
             return date;
 
+        }
+
+        /// <summary>
+        /// Метод проверки намерения пользователя ввести текущую дату
+        /// </summary>
+        /// <returns>Результа проверки</returns>
+        public static bool InputTodayDate()
+        {
+            bool isToday = false;
+            string[] dateMenu = { "Задать дату согдания департамента настоящим днем", "Установить дату создания департамента вручную" };            
+            int choiceByUser = Menu.ChooseMenuItem(dateMenu);
+            int choiceByUser1 = choiceByUser;
+            switch (choiceByUser)
+            {
+                case 0:
+                    isToday = true;
+                    break;
+                case 1:
+                    isToday = false;
+                    break;
+            }
+            return isToday;
         }
 
 
