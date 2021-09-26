@@ -18,7 +18,7 @@ namespace HomeWork_08_SKP.Services
         /// <summary>
         /// Максимальная длина поля имени/наименования
         /// </summary>
-        public const int maxLengthName = 20;
+        public const int maxLengthName = 25;
 
         /// <summary>
         /// Максимальная длина поля возраста сотрудника
@@ -71,10 +71,10 @@ namespace HomeWork_08_SKP.Services
         /// <returns>Результат проверки</returns>
         public static bool CheckName(string name)
         {
-            if (name.All(Char.IsLetter) && name.Length < maxLengthName && name != null) return true;
+            if (name.All(Char.IsLetter) && name.Length < maxLengthName && name != null && !CheckEmptyString(name)) return true;
             else
             {
-                Console.WriteLine($"Строка должна состоять только из букв и не превышать {maxLengthName} символов. Повторите ввод...");
+                Console.WriteLine($"Строка должна содержать только буквы и не превышать {maxLengthName} символов");
                 return false;
             }
         }
@@ -143,16 +143,15 @@ namespace HomeWork_08_SKP.Services
         public static bool CheckChoiceToday()
         {
             bool isToday = false;
-            string[] dateMenu = { "Да", "Нет" };
-            Console.WriteLine("Установить сегодняшнюю дату?");
+            string[] dateMenu = { "Установить сегодняшнюю дату", "Установить дату вручную" };            
             int choiceByUser = Menu.ChooseMenuItem(dateMenu);
             int choiceByUser1 = choiceByUser;
             switch (choiceByUser)
             {
-                case 1:
+                case 0:
                     isToday = true;
                     break;
-                case 2:
+                case 1:
                     isToday = false;
                     break;
             }
@@ -168,6 +167,17 @@ namespace HomeWork_08_SKP.Services
         public static bool CheckDate(string input, ref DateTime date)
         {
             return DateTime.TryParse(input, out date);
+        }
+
+        /// <summary>
+        /// Метод проверки на пустую строку
+        /// </summary>
+        /// <param name="input">Строка для проверки</param>
+        /// <returns>Результат проверки</returns>
+        private static bool CheckEmptyString(string input)
+        {
+            if (input == "" || input == " " || input == null) return true;
+            else return false;
         }
 
         /// <summary>

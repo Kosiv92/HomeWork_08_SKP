@@ -21,6 +21,8 @@ namespace HomeWork_08_SKP
             newDepartment.Name = InputName("наименование департамента");
 
             newDepartment.DateOfCreation = InputDateOfCreate();
+
+            Organization.Departments.Add(newDepartment);
         }
 
         /// <summary>
@@ -133,7 +135,7 @@ namespace HomeWork_08_SKP
 
                 if (!checkChoiceByUser)
                 {
-                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите число больше нуля но не превышающее количества существующих департаментов - {Organization.Departments.Count}.");
+                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите число больше нуля но не превышающее количества существующих департаментов - {Organization.Departments.Count}:");
                     Console.ReadKey();
                 }
                 else checkChoiceByUser = true;
@@ -162,7 +164,7 @@ namespace HomeWork_08_SKP
                 if (checkInputByUser) continue;
                 else
                 {
-                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите корректный возраст сотрудника. Все сотрудники должны быть совершеннолетними");
+                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите корректный возраст сотрудника. Все сотрудники должны быть совершеннолетними:");
                     Console.ReadKey();
                 }
 
@@ -211,6 +213,8 @@ namespace HomeWork_08_SKP
             bool checkChoiceByUser = false;
 
             Console.WriteLine("Укажите дату создания департамента: ");
+
+            Console.ReadKey();
 
             if (CheckUserInput.CheckChoiceToday()) date = DateTime.Today;
             else
