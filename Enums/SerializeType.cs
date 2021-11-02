@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 namespace HomeWork_08_SKP.Enums
 {
     /// <summary>
-    /// Поля объекта Employee(сотрудник)
+    /// Типы сериализации
     /// </summary>
-    public enum EmployeeFields
-    {             
-        surname,
-        name,
-        age,
-        workplace,
-        wage
+    public enum SerializeType
+    {
+        XML,        
+        JSON,
     }
+
 }

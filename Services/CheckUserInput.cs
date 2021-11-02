@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace HomeWork_08_SKP.Services
 {
+    /// <summary>
+    /// Статический класс содержащий методы проверки данны вводимых пользователем, а также константы значений задающих условия проверки
+    /// </summary>
     static class CheckUserInput
     {
         #region Константы
-        
+
         /// <summary>
         /// Максимальная длина поля id-номера
         /// </summary>
-        public const int maxLengthId = 7;
-        
+        public const int maxLengthId = 37;
+
         /// <summary>
         /// Максимальная длина поля имени/наименования
         /// </summary>
-        public const int maxLengthName = 25;
+        public const int maxLengthName = 30;
 
         /// <summary>
         /// Максимальная длина поля возраста сотрудника
@@ -49,6 +53,11 @@ namespace HomeWork_08_SKP.Services
         /// Максимаьный зарегистрированный возраст человека
         /// </summary>
         const int maxRegistredAge = 122;
+
+        /// <summary>
+        /// Максимаьное допустимое количество сотрудников в департаменте
+        /// </summary>
+        const int maxNumberOfEmployees = 1_000_000;
 
         #endregion
 
@@ -104,7 +113,6 @@ namespace HomeWork_08_SKP.Services
         {
 
             bool isNumber = CheckNumber(input, ref wage);
-
             return isNumber && wage >= mrot;
 
         }
@@ -117,8 +125,20 @@ namespace HomeWork_08_SKP.Services
         /// <returns>Результат проверки</returns>
         public static bool CheckDepartment(string input, ref int number)
         {
-            bool checkChoiceByUser = CheckUserInput.CheckNumber(input, ref number);
+            bool checkChoiceByUser = CheckNumber(input, ref number);
             return checkChoiceByUser && number > 0 && number <= Organization.Departments.Count;
+        }
+
+        /// <summary>
+        /// Метод проверки выбранного пользователем работника
+        /// </summary>
+        /// <param name="input">Ввод пользователя</param>
+        /// <param name="number">Номер работника</param>
+        /// <returns>Результат проверки</returns>
+        public static bool CheckEmployee(string input, Department department, ref int number)
+        {
+            bool checkChoiceByUser = CheckNumber(input, ref number);
+            return checkChoiceByUser && number > 0 && number <= department.Employees.Count;
         }
 
         /// <summary>
@@ -127,24 +147,52 @@ namespace HomeWork_08_SKP.Services
         /// <returns>Результат проверки</returns>
         public static bool CheckAloneDepartment()
         {
-            if (Organization.Departments.Count == 1)
-            {
-                Console.WriteLine($"Сотрудник добавлен в департамент {Organization.Departments[0].Name}");
-                Console.ReadKey();
-                return true;
-            }
+            if (Organization.Departments.Count == 1) return true;
             else return false;
-        }                
+        }
 
         /// <summary>
         /// Метод проверки ввода пользователем даты
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <param name="input">Ввод пользователя</param>
+        /// <param name="date">Дата полученная путем преобразования ввода пользователя</param>
+        /// <returns>Результат проверки</returns>
         public static bool CheckDate(string input, ref DateTime date)
         {
             return DateTime.TryParse(input, out date);
+        }
+
+        /// <summary>
+        /// Метод проверки ввода пользователем пути к директории в системе
+        /// </summary>
+        /// <param name="path">Ввод пользователя</param>
+        /// <returns>Результат проверки</returns>
+        public static bool CheckPathToDirectory(string path)
+        {
+            if (!CheckEmptyString(path) && Directory.Exists(path)) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Метод проверки существования файла по указанному пути 
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <returns>Результат проверки</returns>
+        public static bool CheckFileExists(string path)
+        {
+            if (File.Exists(path)) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Проверка количества сотрудников в департаменте на число большее или равное одному миллиону 
+        /// </summary>
+        /// <param name="numberOfDepartment"></param>
+        /// <returns></returns>
+        public static bool CheckNumberOfEmployeesInDepartment(Department department)
+        {
+            if (department.NumberOfEmployees >= maxNumberOfEmployees) return false;
+            else return true;
         }
 
         /// <summary>

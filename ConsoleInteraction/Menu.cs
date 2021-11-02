@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HomeWork_08_SKP.Services;
 
 
 namespace HomeWork_08_SKP
 {
     /// <summary>
-    /// Реализация пользовательского меню
+    /// Класс содержащий методы реализации пользовательского меню
     /// </summary>
     static class Menu
     {
@@ -102,14 +103,18 @@ namespace HomeWork_08_SKP
                 case 0:
                     UserConsoleInputOutput.CreateNewDepartment();
                     break;
-                    case 1:
+                case 1:
+                    UserConsoleInputOutput.EditExistsDepartment(Organization.Departments);                    
                     break;
-                    case 2:
+                case 2:                   
+                    Organization.Departments = ModificationOfOrganizationUnits.DeleteDepartment(Organization.Departments);
+                    Console.ReadKey();
                     break;
-                    case 3:
-                    ListToConsole.PrintListDepartments();                    
+                case 3:
+                    ListToConsole.PrintListDepartments(Organization.Departments);
+                    Console.ReadKey();
                     break;
-                }
+            }
 
 
 
@@ -121,7 +126,7 @@ namespace HomeWork_08_SKP
         /// </summary>
         static void ShowEmployeeMenu()
         {
-            string[] menu = { "Добавить сотрудника", "Редактировать сотрудника", "Удалить сотрудника", "Показать всех сотрудников", "Назад" };
+            string[] menu = { "Добавить сотрудника", "Редактировать сотрудника", "Удалить сотрудника", "Показать сотрудников", "Назад" };
 
             int choiceByUser = ChooseMenuItem(menu);
 
@@ -130,14 +135,19 @@ namespace HomeWork_08_SKP
                 case 0:
                     UserConsoleInputOutput.CreateNewEmployee();
                     break;
-                    case 1:
+                case 1:
+                    UserConsoleInputOutput.EditExistsEmployee(Organization.Departments);
                     break;
-                    case 2:
+                case 2:                    
+                    Console.WriteLine("Укажите порядковый номер департамента, в котором находится работает сотрудник:");
+                    Department departmentOfDeletedEmployee = Organization.Departments[UserConsoleInputOutput.ChooseNumberOfDepartment(true) - 1];
+                    UserConsoleInputOutput.DeleteEmployeeFromDepartment(departmentOfDeletedEmployee);                             
                     break;
-                    case 3:
-                    ListToConsole.PrintListEmployees();                                        
-                    break;
-                }
+                case 3:
+                    UserConsoleInputOutput.ChooseListOfEmployeesToPrint();                    
+                    Console.ReadKey();
+                    break;                    
+            }
 
         }
 
@@ -146,9 +156,40 @@ namespace HomeWork_08_SKP
         /// </summary>
         static void ShowRepositoryMenu()
         {
-            string[] menu = { "Сохранить данные в формате XML", "Сохранить данные в формате JSON", "Загрузить данные из файла XML", "Загрузить данные из файла JSON", "Назад" };
+            string[] menu = { "Сохранить данные в формате XML", "Загрузить данные из файла XML","Сохранить данные в формате JSON", "Загрузить данные из файла JSON", "Назад" };
 
+            string path;
             int choiceByUser = ChooseMenuItem(menu);
+
+            switch (choiceByUser)
+            {
+                case 0:
+                    path = UserConsoleInputOutput.InputPathToDirectory(Enums.SerializeType.XML, false);
+                    XMLSerializer.DataContractSerializeDepartments(Organization.Departments, path);
+                    Console.WriteLine($"Данные успешно сохранены в файл {path}");
+                    Console.ReadKey();
+                    break;
+                case 1:
+                    path = UserConsoleInputOutput.InputPathToDirectory(Enums.SerializeType.XML, true);
+                    XMLSerializer.DataContractDeserializeDepartment(path);
+                    Console.WriteLine("Данные успешно загружены");
+                    Console.ReadKey();
+                    break;
+                case 2:
+                    path = UserConsoleInputOutput.InputPathToDirectory(Enums.SerializeType.JSON, false);
+                    JSONSerializer.JSONSerializeDepartments(path);
+                    Console.WriteLine($"Данные успешно сохранены в файл {path}");
+                    Console.ReadKey();
+                    break;
+                case 3:
+                    path = UserConsoleInputOutput.InputPathToDirectory(Enums.SerializeType.JSON, true);
+                    JSONSerializer.JSONDeserializeDepartments(path);
+                    Console.WriteLine("Данные успешно загружены");
+                    Console.ReadKey();
+                    break;
+                case 4: break;
+            }
         }
+                
     }
 }
