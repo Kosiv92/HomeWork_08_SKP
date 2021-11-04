@@ -107,7 +107,7 @@ namespace HomeWork_08_SKP
                     UserConsoleInputOutput.EditExistsDepartment(Organization.Departments);                    
                     break;
                 case 2:                   
-                    Organization.Departments = ModificationOfOrganizationUnits.DeleteDepartment(Organization.Departments);
+                    UserConsoleInputOutput.DeleteDepartmentFromOrganization();
                     Console.ReadKey();
                     break;
                 case 3:
