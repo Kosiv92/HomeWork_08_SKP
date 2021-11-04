@@ -91,6 +91,22 @@ namespace HomeWork_08_SKP
 
             Console.ReadKey();
         }
+        
+        /// <summary>
+        /// Метод выбора департамента в организации и его удаления
+        /// </summary>
+        public static void DeleteDepartmentFromOrganization()
+        {
+            string nameOfDeletedDepartment = "";
+            
+            Console.WriteLine("Укажите порядковый номер департамента, который необходимо удалить:");
+            
+            int numberOfDeletedDepartment = UserConsoleInputOutput.ChooseNumberOfDepartment(false);                      
+            
+            Organization.Departments = ModificationOfOrganizationUnits.DeleteDepartment(numberOfDeletedDepartment, out nameOfDeletedDepartment);
+            
+            Console.WriteLine($"Департамент {nameOfDeletedDepartment} успешно удален");
+        }
 
         /// <summary>
         /// Метод получения данных о новом сотруднике от пользователя
