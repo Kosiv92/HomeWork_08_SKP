@@ -81,11 +81,7 @@ namespace HomeWork_08_SKP.Services
         public static bool CheckName(string name)
         {
             if (name.All(Char.IsLetter) && name.Length < maxLengthName && name != null && !CheckEmptyString(name)) return true;
-            else
-            {
-                Console.WriteLine($"Строка должна содержать только буквы и не превышать {maxLengthName} символов");
-                return false;
-            }
+            else return false;            
         }
 
         /// <summary>

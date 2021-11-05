@@ -71,11 +71,14 @@ namespace HomeWork_08_SKP
 
         /// <summary>
         /// Метод выбора сотрудника в департаменте и его удаления
-        /// </summary>
-        /// <param name="departmentOfDeletedEmployee">Департамент в котором состоит сотрудник, которого необходимо удалить</param>
-        public static void DeleteEmployeeFromDepartment(Department departmentOfDeletedEmployee)
+        /// </summary>        
+        public static void DeleteEmployeeFromDepartment()
         {
-            int choiceByUser = 0;                                              
+            Console.WriteLine("Укажите порядковый номер департамента, в котором находится работает сотрудник:");
+
+            Department departmentOfDeletedEmployee = Organization.Departments[UserConsoleInputOutput.ChooseNumberOfDepartment(true) - 1];
+
+            int choiceByUser = 0;
 
             List<Employee> modifiedListOfEmployees = new List<Employee>();
 
@@ -91,20 +94,20 @@ namespace HomeWork_08_SKP
 
             Console.ReadKey();
         }
-        
+
         /// <summary>
         /// Метод выбора департамента в организации и его удаления
         /// </summary>
         public static void DeleteDepartmentFromOrganization()
-        {            
+        {
             Console.WriteLine("Укажите порядковый номер департамента, который необходимо удалить:");
-            
+
             int numberOfDeletedDepartment = UserConsoleInputOutput.ChooseNumberOfDepartment(false);
-            
+
             string nameOfDeletedDepartment = Organization.Departments[numberOfDeletedDepartment - 1].Name;
-            
-            Organization.Departments = ModificationOfOrganizationUnits.DeleteDepartment(numberOfDeletedDepartment);
-            
+
+            ModificationOfOrganizationUnits.DeleteDepartment(numberOfDeletedDepartment);
+
             Console.WriteLine($"Департамент {nameOfDeletedDepartment} успешно удален");
         }
 
@@ -262,6 +265,7 @@ namespace HomeWork_08_SKP
             {
                 name = Console.ReadLine();
                 check = CheckUserInput.CheckName(name);
+                if (!check) Console.WriteLine($"Строка должна содержать только буквы и не превышать {CheckUserInput.maxLengthName} символов");
             } while (!check);
 
             return name;
@@ -408,7 +412,11 @@ namespace HomeWork_08_SKP
             Console.WriteLine("Укажите номер департамента список сотрудников которого необходимо вывести в окно консоли:");
             Department department = Organization.Departments[ChooseNumberOfDepartment(false) - 1];
             bool isSortOn = TurnOnSort();
-            if (isSortOn) SetConditionOfSortEmployees(department);
+            if (isSortOn)
+            {
+                department.employeeSort = new EmployeeSort();
+                SetConditionOfSortEmployees(department);
+            }
             ListToConsole.PrintEmployeesOfDepartment(department, isSortOn);
         }
 
@@ -418,17 +426,32 @@ namespace HomeWork_08_SKP
         /// <param name="department"></param>
         public static void SetConditionOfSortEmployees(Department department)
         {
-            string[] employeeColumns = { "Произвести сортировку по полю - \"Имя\"", "Произвести сортировку по полю - \"Фамилия\"", "Произвести сортировку по полю - \"Возраст\"", "Произвести сортировку по полю - \"Департамент\"", "Произвести сортировку по полю - \"Зар.плата\"" };            
-            int choiceByUser = Menu.ChooseMenuItem(employeeColumns);
-            department.employeeSort.ColumnFirst = choiceByUser switch
+            string[] countOfColumns = { "Произвести сортировку по одному полю", "Произвести сортировку по двум полям" };
+            int choiceByUser = Menu.ChooseMenuItem(countOfColumns);
+
+            department.employeeSort.IsSortedTwice = choiceByUser switch
             {
-                0 => EmployeeFields.name,
-                1 => EmployeeFields.surname,
-                2 => EmployeeFields.age,
-                3 => EmployeeFields.workplace,
-                4 => EmployeeFields.wage
+                0 => false,
+                1 => true
             };
-            string[] sortType = { "Использовать прямую сортировку (по-возрастанию)", "Использовать обратную сортировку (по-убыванию)" };            
+
+            department.employeeSort.ColumnFirst = ChooseColumnOfDepartment(department, "первому");
+
+            if (department.employeeSort.IsSortedTwice == true)
+            {
+                do
+                {
+                    department.employeeSort.ColumnSecond = ChooseColumnOfDepartment(department, "второму");
+                    if (department.employeeSort.ColumnFirst == department.employeeSort.ColumnSecond)
+                    {
+                        Console.WriteLine("Поля по которым будет производиться последовательная сортировка должны отличаться. Попробуйте снова");
+                        Console.ReadKey();
+                    }
+                    else break;
+                } while (true);
+            }
+
+            string[] sortType = { "Использовать прямую сортировку (по-возрастанию)", "Использовать обратную сортировку (по-убыванию)" };
             choiceByUser = Menu.ChooseMenuItem(sortType);
             department.employeeSort.SortBy = choiceByUser switch
             {
@@ -439,12 +462,33 @@ namespace HomeWork_08_SKP
         }
 
         /// <summary>
+        /// Метод выбора поля сотрудника по которому будет производиться сортировка
+        /// </summary>
+        /// <param name="department">Департамент содержащий сортируемых сотрудников</param>
+        public static EmployeeFields ChooseColumnOfDepartment(Department department, string kindOfField)
+        {
+            string[] employeeColumns = { $"Произвести сортировку по {kindOfField} полю - \"Имя\"", $"Произвести сортировку по {kindOfField} полю - \"Фамилия\"", $"Произвести сортировку по {kindOfField} полю - \"Возраст\"", $"Произвести сортировку по {kindOfField} полю - \"Департамент\"", $"Произвести сортировку по {kindOfField} полю - \"Зар.плата\"" };
+            int choiceByUser = Menu.ChooseMenuItem(employeeColumns);
+
+            EmployeeFields field = choiceByUser switch
+            {
+                0 => EmployeeFields.name,
+                1 => EmployeeFields.surname,
+                2 => EmployeeFields.age,
+                3 => EmployeeFields.workplace,
+                4 => EmployeeFields.wage
+            };
+            return field;
+        }
+
+
+        /// <summary>
         /// Метод включения/выключения пользователем сортировки списка сотрудников 
         /// </summary>
         /// <returns>Булево: Истина - сорт. вкл; Ложь - сорт. выкл</returns>
         public static bool TurnOnSort()
         {
-            string[] sortMenu = { "Включить сортировку списка сотрудников", "Не включать сортировку списка сотрудников" };            
+            string[] sortMenu = { "Включить сортировку списка сотрудников", "Не включать сортировку списка сотрудников" };
             int choiceOfUser = Menu.ChooseMenuItem(sortMenu);
             bool isSortOn = choiceOfUser switch
             {

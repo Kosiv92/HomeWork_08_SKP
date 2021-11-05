@@ -138,10 +138,8 @@ namespace HomeWork_08_SKP
                 case 1:
                     UserConsoleInputOutput.EditExistsEmployee(Organization.Departments);
                     break;
-                case 2:                    
-                    Console.WriteLine("Укажите порядковый номер департамента, в котором находится работает сотрудник:");
-                    Department departmentOfDeletedEmployee = Organization.Departments[UserConsoleInputOutput.ChooseNumberOfDepartment(true) - 1];
-                    UserConsoleInputOutput.DeleteEmployeeFromDepartment(departmentOfDeletedEmployee);                             
+                case 2: 
+                    UserConsoleInputOutput.DeleteEmployeeFromDepartment();                             
                     break;
                 case 3:
                     UserConsoleInputOutput.ChooseListOfEmployeesToPrint();                    

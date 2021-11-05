@@ -17,7 +17,7 @@ namespace HomeWork_08_SKP
         
         //Поле хранящее ссылку на вспомогательный объет хранящий настройки для сортировки коллекции сотрудников данного департамента
         [JsonIgnore]
-        public EmployeeSort employeeSort = new EmployeeSort();
+        public EmployeeSort employeeSort;
 
         #region Свойства                
 
