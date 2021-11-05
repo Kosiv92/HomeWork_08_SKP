@@ -15,20 +15,16 @@ namespace HomeWork_08_SKP.Services
         /// </summary>
         /// <param name="departments">Лист департаментов</param>
         /// <returns>Лист департаментов без удаленного департамента</returns>
-        public static List<Department> DeleteDepartment(List<Department> departments)
-        {
-
-            Console.WriteLine("Укажите порядковый номер департамента, который необходимо удалить:");
+        public static List<Department> DeleteDepartment(List<Department> departments, out string nameOfDeletedDepartment)
+        {                      
 
             int numberOfDeletedDepartment = UserConsoleInputOutput.ChooseNumberOfDepartment(false);
 
             List<Department> modifiedListOfDepartment = new List<Department>();
 
-            string nameOfDeletedDepartment = departments[numberOfDeletedDepartment - 1].Name;
+            nameOfDeletedDepartment = departments[numberOfDeletedDepartment - 1].Name;
 
-            modifiedListOfDepartment = departments.Where(n => n != departments[numberOfDeletedDepartment - 1]).ToList();
-
-            Console.WriteLine($"Департамент {nameOfDeletedDepartment} успешно удален");
+            modifiedListOfDepartment = departments.Where(n => n != departments[numberOfDeletedDepartment - 1]).ToList();                        
 
             Console.ReadKey();
 
