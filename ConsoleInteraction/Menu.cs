@@ -107,10 +107,7 @@ namespace HomeWork_08_SKP
                     UserConsoleInputOutput.EditExistsDepartment(Organization.Departments);                    
                     break;
                 case 2:                   
-                    string nameOfDeletedDepartment = "";
-                    Console.WriteLine("Укажите порядковый номер департамента, который необходимо удалить:");
-                    Organization.Departments = ModificationOfOrganizationUnits.DeleteDepartment(Organization.Departments, out nameOfDeletedDepartment);
-                    Console.WriteLine($"Департамент {nameOfDeletedDepartment} успешно удален");
+                    UserConsoleInputOutput.DeleteDepartmentFromOrganization();
                     Console.ReadKey();
                     break;
                 case 3:

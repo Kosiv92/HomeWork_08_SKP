@@ -13,22 +13,9 @@ namespace HomeWork_08_SKP.Services
         /// <summary>
         /// Метод удаления департамента из списка департаментов
         /// </summary>
-        /// <param name="departments">Лист департаментов</param>
-        /// <returns>Лист департаментов без удаленного департамента</returns>
-        public static List<Department> DeleteDepartment(List<Department> departments, out string nameOfDeletedDepartment)
-        {                      
-
-            int numberOfDeletedDepartment = UserConsoleInputOutput.ChooseNumberOfDepartment(false);
-
-            List<Department> modifiedListOfDepartment = new List<Department>();
-
-            nameOfDeletedDepartment = departments[numberOfDeletedDepartment - 1].Name;
-
-            modifiedListOfDepartment = departments.Where(n => n != departments[numberOfDeletedDepartment - 1]).ToList();                        
-
-            Console.ReadKey();
-
-            return modifiedListOfDepartment;
+        public static void DeleteDepartment(int numberOfDeletedDepartment)
+        {
+            Organization.Departments = Organization.Departments.Where(n => n != Organization.Departments[numberOfDeletedDepartment - 1]).ToList();            
         }
 
         /// <summary>
