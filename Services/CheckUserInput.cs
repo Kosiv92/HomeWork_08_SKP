@@ -208,7 +208,7 @@ namespace HomeWork_08_SKP.Services
         /// <param name="number">Ввод пользователя</param>
         /// <returns>Результат проверки</returns>
         private static bool CheckNumber(string input, ref int number)
-        {
+        {            
             return Int32.TryParse(input, out number);
         }
 

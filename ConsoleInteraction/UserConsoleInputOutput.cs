@@ -147,9 +147,7 @@ namespace HomeWork_08_SKP
                 newEmployee.WorkPlace = departmentOfEmployee;
 
                 newEmployee.Wage = InputWageEmployee();
-
-                //newEmployee.Id = Employee.getIDForNewEmployee();
-
+                                
                 departmentOfEmployee.Employees.Add(newEmployee);
 
                 Console.WriteLine("Новый сотрудник успешно добавлен!");
@@ -337,16 +335,14 @@ namespace HomeWork_08_SKP
 
                 if (!checkChoiceByUser)
                 {
-                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите число больше нуля но не превышающее количества существующих департаментов - {Organization.Departments.Count}:");
-                    Console.ReadKey();
+                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите число больше нуля но не превышающее количества существующих департаментов - {Organization.Departments.Count}:");                    
                     continue;
                 }
 
                 checkChoiceByUser = CheckUserInput.CheckNumberOfEmployeesInDepartment(Organization.Departments[choiceByUser - 1]);
                 if (!checkChoiceByUser && isAddEmployee)
                 {
-                    Console.WriteLine($"В выбранном департаменте максимально допустимое количество сотрудников. Выберите другой департамент.");
-                    Console.ReadKey();
+                    Console.WriteLine($"В выбранном департаменте максимально допустимое количество сотрудников. Выберите другой департамент.");                    
                 }
 
             } while (!checkChoiceByUser);
@@ -517,8 +513,7 @@ namespace HomeWork_08_SKP
                 if (checkInputByUser) continue;
                 else
                 {
-                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите корректный возраст сотрудника. Все сотрудники должны быть совершеннолетними:");
-                    Console.ReadKey();
+                    Console.WriteLine($"Некорректный ввод. Пожалуйста введите корректный возраст сотрудника. Все сотрудники должны быть совершеннолетними:");                    
                 }
 
             } while (!checkInputByUser);
@@ -546,8 +541,7 @@ namespace HomeWork_08_SKP
                 else
                 {
                     Console.WriteLine($"Некорректный ввод. Пожалуйста введите корректный размер зар.платы сотрудника. " +
-                        $"Зар.плата не может составлять менее прожиточного минимуму - {CheckUserInput.mrot} руб.");
-                    Console.ReadKey();
+                        $"Зар.плата не может составлять менее прожиточного минимуму - {CheckUserInput.mrot} руб.");                    
                 }
 
             } while (!checkInputByUser);
